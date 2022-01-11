@@ -1,21 +1,17 @@
 from buque import *
-from aviones import *
 from coo import *
-def cambiar():
-          print("")
-          print("Ingrese sus nuevas coordenadas")
-          f,c=imprimir()
-          print("¿Desea cambiar sus coordenadas? Si/No")
-          rta=sino()
-          print("")
-          return rta,f,c
+def utilizada():
+          """PRE: no ingresa ningun parametro
+             POST:muestra el error por el cual las coordenadas no son validas"""
+          print("Existe una coordenada la cual ya esta siendo utilizada por otro barco "+"\n"+"Borrando Coordenadas de Buque...."+"\n")
+          print("Vuelve a ubicar nuevas coordenadas  , recuerda que se ocupara cuatro para el portavion "+"\n"+"\n")
 def s():
           print("Ingrese la (1,2,3,4) según quiera el sentido del barco:"+"\n"+"1.Arriba."+"\n"+"2.Abajo."+"\n"+"3.Izquierda."+"\n"+"4.Derecha."+"\n")
           rta=input().strip()
           while rta!="1" and rta!="2" and rta!="3" and rta!="4":
                     print("Ingrese (1,2,3,4) segun corresponda")
-                    print("")
                     rta=input().strip()
+                    print("")
           return rta
 def coor(f,c,co):
           """PRE:ingresan dos listas una con las filas ingresadas y otra con las columnas ingresadas
@@ -30,7 +26,6 @@ def coor(f,c,co):
 def sino():
           """PRE:no se recibe ningun argumento
              POST:retorna una respuesra SI/NO para realizar dos acciones diferentes"""
-          
           rta=input().strip().lower()
           while rta!="si" and rta!="no":
                     print("Ingrese Si/No")
@@ -60,7 +55,6 @@ def imprimir():
 def filycol():
           """PRE:no ingresa ningun parametro
              POST:retorna fila y columna que se usaran, ingresadas por teclado """
-          print("")
           print("Ingrese nuevas coordenadas:")
           f,c=imprimir()
           return f,c
@@ -103,7 +97,6 @@ def restricciones(f,c,lis):
           """PRE:ingresa dos variables tipo coordenadas fil y col respectivamente y una lista con el tablero del jugador
              POST:retorna las dos variables tipo coordenadas restringidas por varias condiciones dadas"""
           while f>8 or c>8 or c<=0 or f<=0:
-                    print("Coordenadas fuera del rango de 1-8,Ingrese nuevas coordenadas:")
                     f,c=filycol()
           while  lis[f-1][c-1]=="B" :
                     if lis[f-1][c-1]=="B":

@@ -1,66 +1,59 @@
 from buque import*
-
 from aviones import *
-
 from restricciones import*
-
-
-"""1
-PRE: ingresan dos listas una de coordenadas ingresadas y otra del tablero de juego
-PRE:añade la f0 y c0 a la lista coo y en esas posiciones cambia en lis por una B """ 
+from tablero import *
+import turtle
+def repetir(co,f,c,lis):
+          print("")
+          print("¿Desea cambiar sus coordenadas? Si/No")
+          rta=sino()
+          print("")
+          if rta=="si":
+                    if len(co)==0:
+                              lis=[]
+                              coord(lis)
+                    else:
+                              while rta!="no":
+                                        rta,f,c=cambiar()
+                              f0,c0=restricciones(f,c,lis)
+                              return f0,c0,1
+          else:
+                     return f,c,0
 def añadir(lis,coor,f0,c0):
+          """PRE: ingresan dos listas una de coordenadas ingresadas y otra del tablero de juego
+             POST:añade la f0 y c0 a la lista coo y en esas posiciones cambia en lis por una B """ 
           x=[]
           x.append(f0)
           x.append(c0)
           coor.append(x)
           lis[f0-1][c0-1]="B"
+          agregar(f0,c0,"GREEN","WHITE")
           return lis,coor
-          
-
-"""2
-PRE:ingresan una lista,con elementos del tablero actual del jugador
-POST:segun una respuesta ingresada por teclado se deja el tablero actual o el tablero se modificar"""
-
-def repetir(lis):
+def lancha(co,x,p,lis):
+          """PRE:ingresa una lista con las coordenadas  ya ingresadas por el jugador ,una variable tipo contador, una variable tipo numerica y la lista la cual contiene el tablero del jugador
+             POST:se hace llamado a funciones como restricciones y añade las fil t col que cumplan las condiciones a lis y co"""
+          f,c=imprimir()
+          f0,c0=restricciones(f,c,lis)
+          f0,c0,p=repetir(co,f0,c0,lis)
+          print("Tus Coordenadas son:"+"\n"+"Fil:",str(f0)+"\n"+"Col:",str(c0)+"\n"+"para tu Lancha táctica",x+1)
           print("")
-          print("¿Desea cambiar sus coordenadas? Si/No")
-          rta=input().strip().lower()
-          print("")
-          while rta!="si" and rta!="no":
-                    print("Ingrese Si/No")
-                    rta=input()
-          if rta=="si":
-                    lis=[]
-                    coord(lis)
-          print("")
-          return 0
-
-"""3
-PRE:Ingresa una lista vacia
-POST:retorna una lista con las coordenadas de las lanchas tacticas ingresadas por el jugador y como esta el tablero de juego actualmente"""
-
+          lis,co=añadir(lis,co,f0,c0)
+          return lis,co,p
 def coord(lis):
+          """PRE:Ingresa una lista vacia
+             POST:retorna una lista con las coordenadas de las lanchas tacticas,buques de guerra y portaaviones ingresadas por el jugador y como esta el tablero de juego actualmente"""
           coor=[]
-          for f in range(8):
-                    va=[]
-                    for c in  range(8):
-                              va.append(0)
-                    lis.append(va)
-          tablero(lis)
-          print("Ingrese las filas y columnas para acomodar tacticamente los barcos, primero empezaremos con las lanchas tacticas, recuerda que ocupan solo una casilla.")
+          lis=[[0 for x in range(8)] for x in range(8)]
+          print("Ingrese las filas y columnas para acomodar tácticamente los barcos, primero empezaremos con las lanchas tácticas, recuerda que ocupan solo una casilla."+"\n")
           for x in range(2):
-                    print("Lancha tactica",x+1)
-                    f,c=imprimir()
-                    f0,c0=restricciones(f,c,lis)
-                    repetir(lis)
-                    print("Tus Coordenadas son:"+"\n"+"Fil:",str(f0)+"\n"+"Col:",str(c0)+"\n"+"para tu Lancha tactica",x+1)
-                    print("")
-                    lis,coor=añadir(lis,coor,f0,c0)
-                    tablero(lis)
-          print("Ahora ubicaremos los buques de guerra, recuerda que se ocuparan tres casillas por buque.")
+                    print("Lancha táctica",x+1)
+                    lis,coor,p=lancha(coor,x,0,lis)
+                    if p==1:
+                              break
           print("")
-          co,lis=buque(coor,lis)
-          print("Ahora ubicaremos el Portaaviones, recuerda que se ocuparan cuatro casillas para esta gran nave.")
+          print("Ahora ubicaremos los buques de guerra, recuerda que se ocuparan tres casillas por buque."+"\n")
+          co,lis=buque(coor,lis,0,0)
           print("")
+          print("Ahora ubicaremos el Portaaviones, recuerda que se ocuparan cuatro casillas para esta gran nave."+"\n")
           coo,liss=aviones(co,lis)
           return coo,liss
